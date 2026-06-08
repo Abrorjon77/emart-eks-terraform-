@@ -1,3 +1,6 @@
+# Backend config — contains S3 bucket name
+backend.tf
+
 # Terraform state — contains sensitive resource IDs and secrets
 *.tfstate
 *.tfstate.backup

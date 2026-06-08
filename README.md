@@ -123,14 +123,24 @@ Values printed to the terminal after `terraform apply`:
 
 Stores Terraform state in an S3 bucket so the state is shared and not lost if you delete your local directory.
 
+> `backend.tf` is **gitignored** — you must create it manually before running `terraform init`.
+
+Create the file with your own S3 bucket:
+
 ```hcl
 terraform {
   backend "s3" {
-    bucket = "<your-s3-bucket-name>"   # create this bucket before terraform init
+    bucket = "<your-s3-bucket-name>"
     key    = "emart-eks/terraform.tfstate"
     region = "us-east-1"
   }
 }
+```
+
+Create the S3 bucket if you don't have one:
+
+```bash
+aws s3 mb s3://<your-s3-bucket-name> --region us-east-1
 ```
 
 > No DynamoDB state locking is used (cost optimisation for solo/dev use). If multiple people run `terraform apply` simultaneously it could corrupt state — add a `dynamodb_table` entry if working in a team.
